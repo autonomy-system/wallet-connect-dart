@@ -446,7 +446,7 @@ class WCClient {
   _handleError(
       JsonRpcErrorResponse errorResponse, JsonRpcRequest originalRequest) {
     print("handle error: $errorResponse");
-    if (errorResponse.error.code == 32000) {
+    if (errorResponse.error.code == 32000 || errorResponse.error.code == -32000) {
       killSession();
     }
   }
@@ -454,6 +454,7 @@ class WCClient {
   killSession() async {
     await updateSession(approved: false);
     disconnect();
+    onDisconnect?.call(_webSocket.closeCode, _webSocket.closeReason);
   }
 
   _resetState() {

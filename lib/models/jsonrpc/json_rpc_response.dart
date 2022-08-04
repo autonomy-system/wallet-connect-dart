@@ -6,7 +6,7 @@ part 'json_rpc_response.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class JsonRpcResponse<T> {
   final int id;
-  final String jsonrpc;
+  final String? jsonrpc;
   final T result;
   JsonRpcResponse({
     required this.id,
