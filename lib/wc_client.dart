@@ -59,6 +59,7 @@ class WCClient {
     this.onCustomRequest,
     this.onConnect,
     this.onSessionApproved,
+    this.onScanSuccess,
   });
 
   final SessionRequest? onSessionRequest;
@@ -70,6 +71,7 @@ class WCClient {
   final CustomRequest? onCustomRequest;
   final SessionApproved? onSessionApproved;
   final Function()? onConnect;
+  final Function()? onScanSuccess;
 
   final _random = new Random();
   final _requestIDMap = new Map<int, JsonRpcRequest>();
@@ -435,6 +437,10 @@ class WCClient {
     if (response.id < 0) throw InvalidJsonRpcParamsException(response.id);
     switch (originalRequest.method) {
       case WCMethod.SESSION_REQUEST:
+        if (response.result == 'ScanSuccess') {
+          onScanSuccess?.call();
+          return;
+        }
         final result = WCApproveSessionResponse.fromJson(response.result);
         onSessionApproved?.call(response.id, result);
         break;
@@ -446,7 +452,8 @@ class WCClient {
   _handleError(
       JsonRpcErrorResponse errorResponse, JsonRpcRequest originalRequest) {
     print("handle error: $errorResponse");
-    if (errorResponse.error.code == 32000 || errorResponse.error.code == -32000) {
+    if (errorResponse.error.code == 32000 ||
+        errorResponse.error.code == -32000) {
       killSession();
     }
   }
