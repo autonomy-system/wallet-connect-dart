@@ -6,6 +6,7 @@ part 'json_rpc_request.g.dart';
 
 @JsonSerializable()
 class JsonRpcRequest {
+  @JsonKey(fromJson: _idFromValue)
   final int id;
   final String jsonrpc;
   final WCMethod? method;
@@ -16,6 +17,8 @@ class JsonRpcRequest {
     this.method,
     required this.params,
   });
+
+  static int _idFromValue(value) => int.tryParse(value.toString()) ?? 0;
 
   factory JsonRpcRequest.fromJson(Map<String, dynamic> json) =>
       _$JsonRpcRequestFromJson(json);
