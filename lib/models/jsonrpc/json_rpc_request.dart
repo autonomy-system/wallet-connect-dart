@@ -9,6 +9,7 @@ class JsonRpcRequest {
   @JsonKey(fromJson: _idFromValue)
   final int id;
   final String jsonrpc;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
   final WCMethod? method;
   final List<dynamic>? params;
   JsonRpcRequest({

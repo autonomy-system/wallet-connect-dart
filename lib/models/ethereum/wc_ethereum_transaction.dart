@@ -5,22 +5,26 @@ part 'wc_ethereum_transaction.g.dart';
 @JsonSerializable()
 class WCEthereumTransaction {
   final String from;
-  final String to;
+  final String? to;
   final String? nonce;
   final String? gasPrice;
+  final String? maxFeePerGas;
+  final String? maxPriorityFeePerGas;
   final String? gas;
   final String? gasLimit;
   final String? value;
-  final String data;
+  final String? data;
   WCEthereumTransaction({
     required this.from,
-    required this.to,
+    this.to,
     this.nonce,
     this.gasPrice,
-    required this.gas,
+    this.maxFeePerGas,
+    this.maxPriorityFeePerGas,
+    this.gas,
     this.gasLimit,
     this.value,
-    required this.data,
+    this.data,
   });
 
   factory WCEthereumTransaction.fromJson(Map<String, dynamic> json) =>
